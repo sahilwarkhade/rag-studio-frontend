@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // Ensure this matches your backend URL
-export const API_BASE_URL = "http://localhost:4000";
+export const API_BASE_URL = "https://apirag.sahilwarkhade.com";
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
