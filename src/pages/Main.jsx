@@ -74,7 +74,7 @@ export const MainPage = () => {
       return;
     }
 
-    const wsURL = `ws://apirag.sahilwarkhade.com?token=${encodeURIComponent(
+    const wsURL = `wss://apirag.sahilwarkhade.com?token=${encodeURIComponent(
       token
     )}`;
     ws.current = new WebSocket(wsURL);
