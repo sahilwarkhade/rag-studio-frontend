@@ -74,7 +74,9 @@ export const MainPage = () => {
       return;
     }
 
-    const wsURL = `ws://localhost:4000?token=${encodeURIComponent(token)}`;
+    const wsURL = `ws://apirag.sahilwarkhade.com?token=${encodeURIComponent(
+      token
+    )}`;
     ws.current = new WebSocket(wsURL);
 
     ws.current.onopen = () => {
@@ -134,9 +136,6 @@ export const MainPage = () => {
     };
   };
 
-  // -------------------------------------------------------
-  // ♻️ Exponential Backoff Reconnection
-  // -------------------------------------------------------
   const attemptReconnect = () => {
     const maxDelay = 30000; // 30 sec max backoff
     const delay = Math.min(1000 * 2 ** reconnectAttempt.current, maxDelay);
@@ -149,9 +148,6 @@ export const MainPage = () => {
     }, delay);
   };
 
-  // -------------------------------------------------------
-  // 💓 Heartbeat Ping (Keeps WS Alive + Detect Dead Conn)
-  // -------------------------------------------------------
   const startHeartbeat = () => {
     stopHeartbeat();
     heartbeat.current = setInterval(() => {
@@ -165,10 +161,6 @@ export const MainPage = () => {
     if (heartbeat.current) clearInterval(heartbeat.current);
   };
 
-  // -------------------------------------------------------
-  // 🌐 Global Function for Token Refresh to Reconnect WS
-  // (Axios interceptor will call window.reconnectWS)
-  // -------------------------------------------------------
   useEffect(() => {
     connectWebSocket();
     getDocs();
