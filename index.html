@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+
+    <!-- ========= TITLE ========= -->
+    <title>RAG Studio — Chat with Your Documents</title>
+
+    <!-- ========= FAVICONS ========= -->
+    <link rel="icon" type="image/png" href="/images/rag.png" />
+    <link rel="apple-touch-icon" href="/images/rag.png" />
+
+    <!-- ========= THEME COLOR ========= -->
+    <meta name="theme-color" content="#0f1117" />
+
+    <!-- ========= SEO META ========= -->
+    <meta
+      name="description"
+      content="RAG Studio — An AI-powered workspace to chat with your documents using Retrieval-Augmented Generation. Upload, ask, explore."
+    />
+
+    <!-- ========= SOCIAL PREVIEW ========= -->
+    <meta property="og:title" content="RAG Studio" />
+    <meta
+      property="og:description"
+      content="Chat with your documents using AI. Smart, fast, and accurate with RAG-powered insights."
+    />
+    <meta property="og:image" content="/image.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ragstudio.sahilwarkhade.com" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RAG Studio" />
+    <meta
+      name="twitter:description"
+      content="AI-powered document understanding with Retrieval-Augmented Generation."
+    />
+    <meta name="twitter:image" content="/image.png" />
+
+    <!-- ========= FONTS (Inter) ========= -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- ========= GLOBAL DARK BACKGROUND BEFORE REACT LOADS ========= -->
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: #0f1117;
+        color-scheme: dark;
+        font-family: "Inter", sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        height: 100%;
+      }
+
+      /* Prevent layout shift before React mounts */
+      #root {
+        min-height: 100vh;
+        background: #0f1117;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <!-- ========= MAIN ENTRY ========= -->
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
