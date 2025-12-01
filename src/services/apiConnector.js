@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// Ensure this matches your backend URL
+
 export const API_BASE_URL = "https://apirag.sahilwarkhade.com";
 
 const axiosInstance = axios.create({
