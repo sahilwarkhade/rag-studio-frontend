@@ -83,7 +83,7 @@ export const MainPage = () => {
       return;
     }
 
-    const wsURL = `ws://${API_HOST}?token=${encodeURIComponent(token)}`;
+    const wsURL = `wss://${API_HOST}?token=${encodeURIComponent(token)}`;
     ws.current = new WebSocket(wsURL);
 
     ws.current.onopen = () => {
