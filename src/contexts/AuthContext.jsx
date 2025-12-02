@@ -5,12 +5,12 @@ const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [authReady, setAuthReady] = useState(false);
 
   useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem("accessToken");
-
       if (token) {
         try {
           const userData = await authAPI.getProfile();
@@ -22,12 +22,11 @@ export const AuthProvider = ({ children }) => {
         }
       }
 
-      setLoading(false);
+      setAuthReady(true);
     };
 
     checkAuth();
   }, []);
-
 
   const login = async (credentials, navigate) => {
     try {
@@ -61,14 +60,11 @@ export const AuthProvider = ({ children }) => {
     logout,
     register,
     setLoading,
+    authReady,
     isAuthenticated: !!user,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {!loading ? children : <div>Loading session...</div>}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {

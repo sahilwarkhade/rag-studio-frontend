@@ -12,8 +12,8 @@ export const Signup = () => {
 
   const [formData, setFormData] = useState({
     name: "Sahil Warkhade",
-    email: "sahilwarkhade16@gmail.com",
-    password: "Sahil@123",
+    email: "sahilwarkhade111@gmail.com",
+    password: "123456",
   });
 
   const handleSubmit = async () => {
@@ -32,13 +32,6 @@ export const Signup = () => {
     if (isAuthenticated) navigate("/");
   }, [isAuthenticated, navigate]);
 
-  if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-[#050712] text-slate-300">
-        Loading...
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen h-screen w-full flex overflow-hidden bg-[#050712] text-slate-200">
@@ -137,9 +130,45 @@ export const Signup = () => {
             <button
               type="button"
               onClick={handleSubmit}
-              className="cursor-pointer w-full mt-1 py-3 rounded-xl bg-gradient-to-r from-purple-500 via-pink-500 to-fuchsia-600 text-white text-sm font-medium shadow-lg shadow-pink-500/25 transition-transform transition-shadow hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0"
+              disabled={loading}
+              className={`cursor-pointer w-full mt-1 py-3 rounded-xl text-white text-sm font-medium shadow-lg shadow-pink-500/25 
+    transition-transform transition-shadow
+    bg-gradient-to-r from-purple-500 via-pink-500 to-fuchsia-600
+    flex items-center justify-center gap-2
+    ${
+      loading
+        ? "opacity-70 cursor-not-allowed"
+        : "hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0"
+    }
+  `}
             >
-              Create Account
+              {loading ? (
+                <>
+                  <svg
+                    className="animate-spin h-4 w-4 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                    ></path>
+                  </svg>
+                  Creating...
+                </>
+              ) : (
+                "Create Account"
+              )}
             </button>
           </div>
 
@@ -192,7 +221,8 @@ export const Signup = () => {
             Join <span className="text-pink-300">RAG Studio</span>
           </h2>
           <p className="text-sm lg:text-base text-slate-200/80 max-w-md leading-relaxed">
-            Build an AI-assisted workflow around your documents with conversations that stay grounded in your data.
+            Build an AI-assisted workflow around your documents with
+            conversations that stay grounded in your data.
           </p>
         </div>
         <div className="absolute -bottom-24 -right-16 w-[420px] h-[420px] rounded-full bg-gradient-to-br from-pink-600/40 to-indigo-600/40 blur-[130px] opacity-70" />

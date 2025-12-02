@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const { loading, setLoading, login, isAuthenticated } = useAuth();
-  const [email, setEmail] = useState("sahilwarkhade16@gmail.com");
-  const [password, setPassword] = useState("Sahil@123");
+  const [email, setEmail] = useState("sahilwarkhade111@gmail.com");
+  const [password, setPassword] = useState("123456");
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
@@ -27,14 +27,6 @@ export const Login = () => {
   useEffect(() => {
     if (isAuthenticated) navigate("/");
   }, [isAuthenticated, navigate]);
-
-  if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-[#050712] text-slate-300">
-        Loading...
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen h-screen w-full flex overflow-hidden bg-[#050712] text-slate-200">
@@ -101,9 +93,47 @@ export const Login = () => {
             <button
               type="button"
               onClick={handleSubmit}
-              className="cursor-pointer w-full mt-1 py-3 rounded-xl bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-600 text-white text-sm font-medium shadow-lg shadow-indigo-500/25 transition-transform transition-shadow hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0"
+              disabled={loading}
+              className={`
+    w-full mt-1 py-3 rounded-xl text-white text-sm font-medium
+    bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-600
+    shadow-lg shadow-indigo-500/25
+    flex items-center justify-center gap-2
+    transition-transform transition-shadow
+    ${
+      loading
+        ? "opacity-70 cursor-not-allowed"
+        : "hover:-translate-y-0.5 hover:shadow-xl active:translate-y-0"
+    }
+  `}
             >
-              Sign In
+              {loading ? (
+                <>
+                  <svg
+                    className="animate-spin h-4 w-4 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                    ></path>
+                  </svg>
+                  Signing In...
+                </>
+              ) : (
+                "Sign In"
+              )}
             </button>
           </div>
 

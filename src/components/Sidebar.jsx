@@ -10,7 +10,8 @@ export const Sidebar = ({
   user,
   handleLogout,
   setSelectedDocument,
-  selectedDocument
+  selectedDocument,
+  uploading
 }) => {
   return (
     <aside
@@ -36,15 +37,61 @@ export const Sidebar = ({
             </button>
           </div>
 
-          <label className="cursor-pointer flex items-center justify-center gap-2 px-4 py-3 bg-white/5 border border-white/10 hover:bg-white/10 transition rounded-lg backdrop-blur-xl text-sm font-medium">
-            <Upload className="w-4 h-4" />
-            <span>Upload Documents</span>
+          <label
+            className={`cursor-pointer flex items-center justify-center gap-2 px-4 py-3 
+  rounded-lg border border-white/10 backdrop-blur-xl text-sm font-medium 
+  transition relative overflow-hidden
+
+  ${
+    uploading
+      ? "bg-white/10 pointer-events-none"
+      : "bg-white/5 hover:bg-white/10"
+  }
+  `}
+          >
+            {/* SHIMMER EFFECT */}
+            {uploading && (
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-[shimmer_1.5s_infinite]"></span>
+            )}
+
+            {/* ICON / LOADING SPINNER */}
+            {uploading ? (
+              <svg
+                className="w-4 h-4 animate-spin text-indigo-300"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4l3-3-3-3v4a12 12 0 00-12 12h4z"
+                ></path>
+              </svg>
+            ) : (
+              <Upload className="w-4 h-4 text-slate-200" />
+            )}
+
+            {/* LABEL */}
+            <span className="text-slate-200">
+              {uploading ? "Uploading..." : "Upload Documents"}
+            </span>
+
+            {/* HIDDEN INPUT */}
             <input
               type="file"
               multiple
               onChange={handleFileUpload}
               className="hidden"
               accept=".pdf,.txt,.doc,.docx"
+              disabled={uploading}
             />
           </label>
         </div>

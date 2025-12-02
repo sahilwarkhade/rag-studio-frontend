@@ -6,15 +6,6 @@ import { Signup } from './pages/Signup';
 import { MainPage } from './pages/Main';
 // Main App Component with Navigation
 export default function App() {
-  const { user } = useAuth();
-  const navigate = useNavigate()
-
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate('/')
-  //   }
-  // }, [user]);
-
   return (
     <div>
     <Routes>

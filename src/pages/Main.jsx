@@ -12,9 +12,11 @@ import {
   getDocumentHistory,
 } from "../services/apis/document";
 import { DeleteModal } from "../components/DeleteModal";
+import { SplashScreen } from "../components/SplashScreen";
+import { API_HOST } from "../services/apiConnector";
 
 export const MainPage = () => {
-  const { user, loading, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated, authReady } = useAuth();
   const [documents, setDocuments] = useState([]);
   const [selectedDocument, setSelectedDocument] = useState(null);
   const [messages, setMessages] = useState([]);
@@ -22,26 +24,36 @@ export const MainPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedDocForDelete, setSelectedDocForDelete] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const ws = useRef(null);
-  const reconnectAttempt = useRef(0); // exponential backoff counter
-  const heartbeat = useRef(null); // ping interval tracker
+  const reconnectAttempt = useRef(0);
+  const heartbeat = useRef(null);
 
   const navigate = useNavigate();
 
-  // -------------------------------------------------------
-  // 🚀 Load Documents
-  // -------------------------------------------------------
   const getDocs = async () => {
     await getAllUserDocuments(setDocuments);
   };
 
   const handleFileUpload = async (e) => {
     const files = [...e.target.files];
-    const formData = new FormData();
-    formData.append("file", files[0]);
-    await uploadFile(formData);
-    await getDocs();
+
+    if (!files.length) return;
+
+    setUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", files[0]);
+
+      await uploadFile(formData);
+      await getDocs();
+    } catch (err) {
+      toa.error(err);
+    }
+
+    setUploading(false);
   };
 
   const handleDeleteDoc = async (docId) => {
@@ -63,9 +75,6 @@ export const MainPage = () => {
     setSelectedDocForDelete(null);
   };
 
-  // -------------------------------------------------------
-  // 🔥 WebSocket Connection with Exponential Backoff
-  // -------------------------------------------------------
   const connectWebSocket = () => {
     const token = localStorage.getItem("accessToken");
 
@@ -74,9 +83,7 @@ export const MainPage = () => {
       return;
     }
 
-    const wsURL = `wss://apirag.sahilwarkhade.com?token=${encodeURIComponent(
-      token
-    )}`;
+    const wsURL = `ws://${API_HOST}?token=${encodeURIComponent(token)}`;
     ws.current = new WebSocket(wsURL);
 
     ws.current.onopen = () => {
@@ -197,14 +204,17 @@ export const MainPage = () => {
   }, [selectedDocument]);
 
   useEffect(() => {
+    if (!authReady) return;
     if (!isAuthenticated) navigate("/login");
-  }, [user]);
+  }, [isAuthenticated, authReady]);
 
-  if (loading) return <div>Loading...</div>;
-
+  if (!authReady) {
+    return <SplashScreen />;
+  }
   return (
     <div className="h-screen flex overflow-hidden bg-[#0f1117]">
       <Sidebar
+        uploading={uploading}
         sidebarOpen={sidebarOpen}
         setSidebarOpen={setSidebarOpen}
         documents={documents}
@@ -217,7 +227,7 @@ export const MainPage = () => {
         selectedDocument={selectedDocument}
       />
 
-      <main className="flex-1 flex flex-col h-full">
+      <main className="flex-1 flex flex-col h-full w-full">
         <ChatHeader
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
